@@ -14,11 +14,11 @@ class Bob:
         pygame.draw.circle(screen, (0, 0, 0), (self.x, self.y), self.radius/10)
         pygame.draw.arc(
     screen,
-    (0, 0, 255),
+    (0, 0, 0),
     pygame.Rect(self.x - self.radius, self.y - self.radius, self.radius*2, self.radius*2),
     math.pi,
     0,
-    300
+    150
 )
 
 class Spring:
@@ -47,4 +47,3 @@ class Spring:
         fx = nx * force_magnitude
         fy = ny * force_magnitude
         return fx, fy 
-import script
