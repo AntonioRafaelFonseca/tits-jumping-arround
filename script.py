@@ -5,6 +5,7 @@ pygame.init()
 w, h = 600, 600
 screen = pygame.display.set_mode((w, h))
 running = True
+top_color = (44, 0, 163)
 gravity = 4
 bob = Bob(150, 350)
 bob2 = Bob(w-150, 350)
@@ -29,6 +30,17 @@ def move_anchor():
         if anchor.y <= min_y:
             anchor_g_up = True
 
+def draw_filled_arc(screen, x, y, radius, color, steps=100):
+    points = [(x, y)]  # centro do círculo
+    for i in range(steps + 1):
+        # angulo de π (esquerda) até 0 (direita)
+        angle = math.pi * (1 - i / steps)  # vai de π → 0
+        px = x + radius * math.cos(angle)
+        py = y + radius * math.sin(angle)  # positivo y cresce para baixo no Pygame
+        points.append((px, py))
+
+    pygame.draw.polygon(screen, color, points)
+
 while running:
     clock.tick(60)
     screen.fill((200, 200, 200))
@@ -42,7 +54,7 @@ while running:
     keys = pygame.key.get_pressed()
 
     move_anchor()
-    anchor2.y = anchor.y #+ random.randint(-10, 10)
+    anchor2.y = anchor.y + random.randint(-100, 100)
     #spring 1
     spring.update_pos((bob.x, bob.y), (anchor.x, anchor.y))
 
@@ -63,6 +75,8 @@ while running:
     bob2.y_speed += gravity
     bob2.y_speed *= 0.8
     bob2.x_speed *= 0.8
+    draw_filled_arc(screen, bob.x, bob.y, bob.radius, top_color)
+    draw_filled_arc(screen, bob2.x, bob2.y, bob2.radius, top_color)
     pygame.display.flip()
 
 pygame.quit()
